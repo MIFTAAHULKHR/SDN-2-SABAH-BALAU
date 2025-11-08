@@ -210,31 +210,42 @@ export default function AdminPage() {
             </button>
           </section>
 
-          {/* Tampilan Pilih Bab */}
-          <section id="pilih-bab" style={{ display: view === 'pilih-bab' ? 'block' : 'none' }}>
-            <h5 className="text-xl font-semibold mb-4">Langkah 3: Pilih Bab yang Ingin Diubah</h5>
-            <div className="max-w-2xl">
-              <div className="flex flex-col rounded-lg shadow-lg border border-gray-200 overflow-hidden">
-                {getBabList().map(([babKey, babData]) => (
-                  <div 
-                    key={babKey}
-                    className="flex items-center p-4 border-b border-gray-200 cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:text-blue-600"
-                    onClick={() => handleBabClick(babKey, babData)}
-                  >
-                    <strong className="text-slate-800">{babKey}.</strong>
-                    <span className="ml-2">{babData.nama}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <button 
-              className="btn-kembali"
-              onClick={() => setView('pilih-pelajaran')}
-            >
-              <HiArrowLeft className="mr-1" /> {/* <-- IKON DIPERBARUI */}
-              Kembali
-            </button>
-          </section>
+			<section id="pilih-bab" style={{ display: view === 'pilih-bab' ? 'block' : 'none' }}>
+				<h5 className="text-xl font-semibold mb-4">Langkah 3: Pilih Bab yang Ingin Diubah</h5>
+				<div className="row">
+					<div className="col-lg-8">
+						<div className="max-w-2xl"> {/* <-- Tambahkan wrapper max-w-2xl di sini */}
+							<div className="flex flex-col rounded-lg shadow-lg border border-gray-200 overflow-hidden">
+								
+								{/* PERBAIKAN: Menggunakan type assertion untuk mengatasi error Vercel */}
+								{getBabList().map(([babKey, babObject]) => { 
+									// Menetapkan tipe babObject agar memiliki properti 'nama' dan 'youtube'
+									const bab = babObject as { nama: string, youtube: string }; 
+									
+									return (
+										<div 
+											key={babKey}
+											className="flex items-center p-4 border-b border-gray-200 cursor-pointer transition-all duration-200 hover:bg-gray-50 hover:text-blue-600"
+											// Meneruskan objek bab yang sudah diketahui tipenya
+											onClick={() => handleBabClick(babKey, bab)} 
+										>
+											<strong className="text-slate-800">{babKey}.</strong>
+											<span className="ml-2">{bab.nama}</span> 
+										</div>
+									);
+								})}
+							</div>
+						</div> {/* <-- Tutup div max-w-2xl */}
+					</div>
+				</div>
+				<button 
+					className="btn-kembali"
+					onClick={() => setView('pilih-pelajaran')}
+				>
+					<HiArrowLeft className="mr-1" />
+					Kembali
+				</button>
+			</section>
 
           {/* Tampilan Form Materi */}
           <section id="form-materi" style={{ display: view === 'form-materi' ? 'block' : 'none' }}>
