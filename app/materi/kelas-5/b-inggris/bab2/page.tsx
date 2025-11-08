@@ -8,7 +8,7 @@ import { BiArrowBack } from 'react-icons/bi';
 // PERBAIKAN: Nama fungsi diubah agar sesuai dengan file
 export default function MateriBing5Bab2Page() {
   
-  const videoEmbedUrl = ""; //video pembelajaran belum lengkap//
+  const videoEmbedUrl = "https://www.youtube.com/embed/4RJYhetx7H0?si=PO67QvmX15Q5ekd2";
   const videoTitle = "Materi Bab 2: I Drink a Glass of Milk";
 
   return (
