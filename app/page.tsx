@@ -13,15 +13,20 @@ import {
   HiOutlineBookOpen
 } from 'react-icons/hi';
 
+
 // Komponen Visi & Misi
 const VisiMisi = () => {
   return (
-    <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-white">
+    // {/* PERUBAHAN: Padding 'py-12' (HP) diubah dari 'pt-12 pb-12' agar lebih ringkas */}
+    <section className="py-12 lg:py-16 bg-white">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold text-slate-800 text-center mb-16">
+        {/* PERUBAHAN: Ukuran font judul dibuat responsif */}
+        <h2 className="text-3xl md:text-5xl font-bold text-slate-800 text-center mb-12 md:mb-16">
           Membentuk Masa Depan Berkarakter
         </h2>
-        <div className="grid md:grid-cols-2 gap-12 items-stretch">
+        
+        {/* 'items-stretch' sudah bagus, 'gap-8' (HP) diubah dari 'gap-12' */}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-stretch">
           <div>
             <img 
               src="/Dokumentasi/mengajar.png" 
@@ -30,26 +35,38 @@ const VisiMisi = () => {
             />
           </div>
           <div className="flex flex-col space-y-8">
+            
             {/* Kartu Visi */}
-            <div className="bg-white p-6 rounded-xl shadow-lg flex items-start space-x-4 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            {/* PERUBAHAN: 
+              - 'p-4' (HP) & 'md:p-6' (Desktop)
+              - 'flex-col' (HP) & 'md:flex-row' (Desktop)
+              - 'space-y-4' (HP) & 'md:space-y-0 md:space-x-4' (Desktop)
+            */}
+            <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-4 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
               <div className="flex-shrink-0 bg-blue-100 text-blue-600 p-4 rounded-full">
                 <HiOutlineOfficeBuilding size={24} />
               </div>
               <div>
-                <h3 className="text-2xl font-semibold text-slate-800 mb-2">Visi Kami</h3>
-                <p className="text-slate-600 leading-relaxed">
+                {/* PERUBAHAN: Font judul kartu dibuat responsif */}
+                <h3 className="text-xl md:text-2xl font-semibold text-slate-800 mb-2">Visi Kami</h3>
+                {/* PERUBAHAN: Font paragraf dibuat responsif */}
+                <p className="text-sm md:text-base text-slate-600 leading-relaxed">
                   Visi kami ialah mewujudkan pendidikan yang berkarakter sesuai dengan tumbuh kembang peserta didik. Dengan pendidikan diarahkan untuk membentuk pribadi yang tertib, disiplin, santun, dan berakhlak mulia, serta memiliki keimanan dan ketakwaan yang kuat. Selain itu, pendidikan ini bertujuan untuk menghasilkan peserta didik yang unggul dalam prestasi akademik maupun non-akademik, mampu bersaing dalam ujian sekolah dan berbagai kompetisi, serta memiliki keterampilan hidup yang mendukung kemandirian di masa depan. Penguasaan ilmu pengetahuan dan teknologi menjadi fokus utama, seiring dengan pembentukan kepribadian yang religius dan aktif dalam pengembangan diri.
                 </p>
               </div>
             </div>
+            
             {/* Kartu Misi */}
-            <div className="bg-white p-6 rounded-xl shadow-lg flex items-start space-x-4 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
+            {/* PERUBAHAN: Diterapkan style responsif yang sama dengan Kartu Visi */}
+            <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-4 transition-all duration-300 hover:shadow-2xl hover:-translate-y-1">
               <div className="flex-shrink-0 bg-blue-100 text-blue-600 p-4 rounded-full">
                 <HiOutlineAcademicCap size={24} />
               </div>
               <div>
-                <h3 className="text-2xl font-semibold text-slate-800 mb-2">Misi Kami</h3>
-                <p className="text-slate-600 leading-relaxed">
+                {/* PERUBAHAN: Font judul kartu dibuat responsif */}
+                <h3 className="text-xl md:text-2xl font-semibold text-slate-800 mb-2">Misi Kami</h3>
+                {/* PERUBAHAN: Font paragraf dibuat responsif */}
+                <p className="text-sm md:text-base text-slate-600 leading-relaxed">
                   Misi kami ialah menyajikan ilmu pengetahuan yang selaras dengan perkembangan ilmu dan teknologi. Dengan indikator menciptakan warga sekolah yang disiplin, bertanggung jawab, dan berakhlak mulia, meningkatkan kualitas pendidik dengan kualifikasi akademik yang sesuai, menyelenggarakan proses pembelajaran yang berkualitas dan menyenangkan, serta menyajikan materi pelajaran yang kritis dan relevan dengan kemajuan zaman.
                 </p>
               </div>
@@ -61,6 +78,7 @@ const VisiMisi = () => {
   );
 };
 
+// Komponen Statistik
 const Stats = () => {
   const statsData = [
     { id: 1, icon: <HiOutlineUsers size={40} />, number: '204', label: 'Siswa Aktif' },
@@ -70,17 +88,22 @@ const Stats = () => {
   ];
 
   return (
-    <section className="pt-12 pb-12 lg:pt-16 lg:pb-16 bg-white">
+    // {/* PERUBAHAN: Padding 'py-12' (HP) disamakan */}
+    <section className="py-12 lg:py-16 bg-white">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        {/* 'grid-cols-2' (HP) dan 'md:grid-cols-4' (Desktop) sudah responsif. 'gap-4' (HP) dikecilkan. */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           {statsData.map((stat) => (
             <div 
               key={stat.id} 
-              className="bg-white p-8 rounded-xl shadow-xl text-center transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+              // {/* PERUBAHAN: Padding 'p-4' (HP) dikecilkan dari 'p-8' */}
+              className="bg-white p-4 md:p-8 rounded-xl shadow-xl text-center transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
             >
               <div className="text-blue-600 mb-4 inline-block">{stat.icon}</div>
-              <h3 className="text-5xl font-bold text-slate-800 mb-2">{stat.number}</h3>
-              <p className="text-lg text-slate-600">{stat.label}</p>
+              {/* PERUBAHAN: Font angka dibuat responsif */}
+              <h3 className="text-4xl md:text-5xl font-bold text-slate-800 mb-2">{stat.number}</h3>
+              {/* PERUBAHAN: Font label dibuat responsif */}
+              <p className="text-base md:text-lg text-slate-600">{stat.label}</p>
             </div>
           ))}
         </div>
@@ -92,12 +115,15 @@ const Stats = () => {
 // Komponen Lokasi (Peta)
 const Lokasi = () => {
   return (
-    <section className="pt-5 pb-20 lg:pt-5 lg:pb-24 bg-white">
-      <div className="container mx-auto px-5">
-        <h2 className="text-4xl font-bold text-slate-800 text-center mb-16">
+    // {/* PERUBAHAN: Padding 'py-12' (HP) dan 'pt-8' (Desktop) diubah */}
+    <section className="py-12 md:py-20 bg-white">
+      <div className="container mx-auto px-4"> {/* Menggunakan px-4 agar konsisten */}
+        {/* PERUBAHAN: Ukuran font judul dibuat responsif */}
+        <h2 className="text-3xl md:text-4xl font-bold text-slate-800 text-center mb-12 md:mb-16">
           Lokasi SDN 2 Sabah Balau
         </h2>
-        <div className="max-w-4xl mx-auto h-[450px] rounded-xl shadow-2xl overflow-hidden border border-gray-200">
+        {/* PERUBAHAN: Tinggi peta dibuat responsif */}
+        <div className="max-w-4xl mx-auto h-[350px] md:h-[450px] rounded-xl shadow-2xl overflow-hidden border border-gray-200">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3972.307001761941!2d105.34948867586702!3d-5.370064053728012!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40ddf5e8933775%3A0xd32e4bdb7f777c6b!2sSD%20N%202%20SABAH%20BALAU!5e0!3m2!1sid!2sid!4v1762516476965!5m2!1sid!2sid"
             width="100%"
@@ -117,17 +143,16 @@ const Lokasi = () => {
 // Komponen Utama Halaman Beranda
 const Beranda = () => {
   return (
-    <div className="font-poppins bg-gray-50 text-slate-800">
-      {/* 1. Impor Navbar */}
+    // {/* PERUBAHAN: 'bg-gray-50' dihapus agar background default-nya putih (sesuai section) */}
+    <div className="font-poppins text-slate-800">
       <Navbar />
       
-      {/* 2. Konten Halaman */}
+      {/* Konten Halaman */}
       <Hero />
       <VisiMisi />
       <Stats />
       <Lokasi />
       
-      {/* 3. Impor Footer */}
       <Footer />
     </div>
   );

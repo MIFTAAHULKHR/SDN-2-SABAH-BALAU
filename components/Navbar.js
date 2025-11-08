@@ -60,7 +60,7 @@ const Navbar = () => {
             ))}
             <li>
               <a 
-                href="/login.html" 
+                href="/login" 
                 className="bg-white text-blue-500 rounded-full py-2 px-6 font-semibold hover:bg-gray-100 transition-all shadow-sm"
               >
                 Login

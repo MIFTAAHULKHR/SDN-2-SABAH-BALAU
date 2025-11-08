@@ -2,49 +2,43 @@
 import React, { useState, useEffect } from 'react';
 
 const Hero = () => {
-  // Teks lengkap yang ingin kita ketik
   const fullText = "Selamat Datang";
-  
-  // State untuk menyimpan teks yang sedang tampil (yang sedang diketik)
   const [typedText, setTypedText] = useState('');
 
-  // useEffect akan berjalan untuk menganimasikan teks
   useEffect(() => {
-    // Cek jika teks yang tampil belum sama dengan teks lengkap
     if (typedText.length < fullText.length) {
-      
-      // Atur timer untuk menambah satu huruf
       const timerId = setTimeout(() => {
         setTypedText(fullText.substring(0, typedText.length + 1));
-      }, 150); // Kecepatan ketik
-
-      // Membersihkan timer
+      }, 150);
       return () => clearTimeout(timerId);
     }
-  }, [typedText]); // Jalankan efek ini setiap kali 'typedText' berubah
+  }, [typedText]);
 
   return (
     <header 
-      className="relative h-screen min-h-[700px] w-full flex items-center justify-start text-white"
+      // PERBAIKAN 1: Mengganti 'h-screen min-h-[700px]' menjadi 'min-h-screen'
+      // Ini membuat tingginya pas 100% tinggi layar, tapi bisa tumbuh jika perlu.
+      className="relative min-h-screen w-full flex items-center justify-start text-white"
       style={{ backgroundImage: `url('/Dokumentasi/gapura.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}
     >
       <div className="absolute inset-0 bg-black/50"></div>
       
-      {/* PERBAIKAN 2: Tambahkan 'md:pl-16' untuk menggeser konten ke kanan di desktop */}
       <div className="relative z-10 container mx-auto px-4 md:pl-16">
         <div className="max-w-xl">
           
-          {/* PERBAIKAN 1: Ukuran font diubah ke 'md:text-6xl' dan 'min-h' dihapus */}
-          <h2 className="text-3xl md:text-6xl font-bold mb-4">
+          {/* PERBAIKAN 2: Ukuran font HP diubah ke text-4xl */}
+          <h2 className="text-4xl md:text-6xl font-bold mb-4">
             {typedText}
-            {/* Kursor berkedip (tingginya disesuaikan) */}
             <span className="inline-block animate-pulse w-2 md:w-3 h-10 md:h-14 bg-white ml-2"></span>
           </h2>
 
-          <h2 className="text-3xl md:text-4xl font-semibold mb-6">SD Negeri 2 Sabah Balau</h2>
+          {/* PERBAIKAN 3: Ukuran font HP diubah ke text-2xl agar lebih kecil dari judul */}
+          <h2 className="text-2xl md:text-4xl font-semibold mb-6">
+            SD Negeri 2 Sabah Balau
+          </h2>
           
-          {/* PERBAIKAN 3: Tambahkan 'text-justify' untuk rata kiri-kanan */}
-          <p className="text-lg text-white/90 leading-relaxed text-justify">
+          {/* PERBAIKAN 4: Font HP diubah ke text-base dan text-justify hanya di desktop */}
+          <p className="text-base md:text-lg text-white/90 leading-relaxed md:text-justify">
             Berdiri sejak 31 Januari 1982 berdasarkan SK Pendirian
             Pemerintah Daerah. Terletak di Desa Sabah Balau, Kecamatan Tanjung Bintang,
             Kabupaten Lampung Selatan, sekolah ini telah berkembang dengan mengimplementasikan

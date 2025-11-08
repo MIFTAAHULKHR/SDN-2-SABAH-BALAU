@@ -5,24 +5,24 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BiArrowBack } from 'react-icons/bi';
 
-export default function MateriMtk5Bab1Page() {
+export default function MateriMtk5Bab2Page() {
   
   // Link YouTube untuk Bab 1
-  const videoEmbedUrl = "https://www.youtube.com/embed/tJEUsbICIqw?si=epc3W9WxPFCPT_lw";
-  const videoTitle = "Materi Bab 1: Bilangan Bulat dan Bilangan Desimal";
+  const videoEmbedUrl = "https://www.youtube.com/embed/1mXFTsA_fNE?si=sS6ZwNCkTVuB2DzQ";
+  const videoTitle = "Materi Bab 2: Pengukuran per Kuantitas Unit";
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
       <Navbar />
       <main className="py-10 md:py-16 flex-grow">
         <div className="container mx-auto px-4">
-      
+          
           {/* Judul Halaman */}
           <h1 className="text-3xl md:text-4xl font-bold text-slate-800 text-center mb-4">
             Pusat Akademik Siswa
           </h1>
           <h2 className="text-2xl md:text-3xl font-semibold text-slate-700 text-center mb-10 md:mb-12">
-            Bilangan Bulat dan Bilangan Desimal
+            Pengukuran per Kuantitas Unit 
           </h2>
 
           {/* Wrapper Konten (Pusat, lebar terbatas) */}
@@ -43,6 +43,8 @@ export default function MateriMtk5Bab1Page() {
                 className="w-full h-full"
               ></iframe>
             </div>
+
+            {/* --- BAGIAN KUIS TELAH DIHAPUS --- */}
 
             {/* Tombol Kembali (Navigasi) */}
             <div className="text-center mt-8 md:mt-12">

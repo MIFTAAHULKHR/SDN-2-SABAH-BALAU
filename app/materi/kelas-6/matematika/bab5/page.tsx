@@ -5,24 +5,23 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { BiArrowBack } from 'react-icons/bi';
 
-export default function MateriMtk5Bab1Page() {
+export default function MateriMatematikakelas6page() {
   
-  // Link YouTube untuk Bab 1
-  const videoEmbedUrl = "https://www.youtube.com/embed/tJEUsbICIqw?si=epc3W9WxPFCPT_lw";
-  const videoTitle = "Materi Bab 1: Bilangan Bulat dan Bilangan Desimal";
+  const videoEmbedUrl = "https://www.youtube.com/embed/ju6K5iyvsAs?si=mwyqiVjC-JRT5JQ_";
+  const videoTitle = "Materi Bab 5: Kelipatan dan Perbandingan";
 
   return (
     <div className="bg-white min-h-screen flex flex-col">
       <Navbar />
-      <main className="py-10 md:py-16 flex-grow">
+      <main className="py-16 md:py-20 flex-grow">
         <div className="container mx-auto px-4">
-      
+          
           {/* Judul Halaman */}
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-800 text-center mb-4">
+          <h1 className="text-4xl font-bold text-slate-800 text-center mb-4">
             Pusat Akademik Siswa
           </h1>
-          <h2 className="text-2xl md:text-3xl font-semibold text-slate-700 text-center mb-10 md:mb-12">
-            Bilangan Bulat dan Bilangan Desimal
+          <h2 className="text-3xl font-semibold text-slate-700 text-center mb-12">
+            Kelipatan dan Perbandingan
           </h2>
 
           {/* Wrapper Konten (Pusat, lebar terbatas) */}
@@ -44,10 +43,12 @@ export default function MateriMtk5Bab1Page() {
               ></iframe>
             </div>
 
+            {/* --- BAGIAN KUIS TELAH DIHAPUS --- */}
+
             {/* Tombol Kembali (Navigasi) */}
-            <div className="text-center mt-8 md:mt-12">
+            <div className="text-center mt-12">
               <Link 
-                href="/akademik/kelas-5/matematika" // Link kembali ke halaman "Pilih Bab"
+                href="/akademik/kelas-6/matematika" // Link kembali ke halaman "Pilih Bab"
                 className="inline-flex items-center px-6 py-2 border border-slate-300 text-slate-600 rounded-full font-semibold hover:bg-slate-50 transition-all duration-200"
               >
                 <BiArrowBack className="mr-2" />
