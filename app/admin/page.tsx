@@ -1,8 +1,9 @@
 "use client"; 
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 // PERBAIKAN: Mengganti semua ikon 'bi' (Bootstrap) menjadi 'hi' (Heroicons)
 import { 
@@ -110,12 +111,33 @@ const Sidebar = () => (
 
 // Komponen Utama Halaman Dashboard
 export default function AdminPage() {
-  const [view, setView] = useState('pilih-kelas');
-  const [currentKelas, setCurrentKelas] = useState(null);
-  const [currentPelajaran, setCurrentPelajaran] = useState(null);
-  const [currentBab, setCurrentBab] = useState(null);
-  const [currentBabData, setCurrentBabData] = useState(null);
-  const [youtubeLink, setYoutubeLink] = useState('');
+  const router = useRouter();
+
+const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+const [view, setView] = useState('pilih-kelas');
+const [currentKelas, setCurrentKelas] = useState(null);
+const [currentPelajaran, setCurrentPelajaran] = useState(null);
+const [currentBab, setCurrentBab] = useState(null);
+const [currentBabData, setCurrentBabData] = useState(null);
+const [youtubeLink, setYoutubeLink] = useState('');
+
+useEffect(() => {
+  // Tunggu sampai kode dijalankan di sisi browser
+  if (typeof window !== "undefined") {
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) {
+      router.push("/login");
+    } else {
+      setIsCheckingAuth(false); // user ditemukan → lanjut render dashboard
+    }
+  }
+}, [router]);
+
+// Kalau masih mengecek auth, jangan render dashboard dulu
+if (isCheckingAuth) {
+  return <div className="p-10 text-center text-slate-600">Memeriksa sesi login...</div>;
+}
+
 
   const handleKelasClick = (kelas) => {
     setCurrentKelas(kelas);
