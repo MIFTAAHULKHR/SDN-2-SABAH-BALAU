@@ -34,10 +34,12 @@ export default function LoginPage() {
 
       // 6. Cek balasan dari server
       if (data.success) {
+        localStorage.setItem('user', JSON.stringify(data.user));
         // JIKA SUKSES:
         alert('Login berhasil! Mengarahkan ke dashboard...');
         // Arahkan ke halaman admin (Pastikan halaman /admin ada)
         router.push('/admin'); 
+
       } else {
         // JIKA GAGAL:
         setError(data.message); // Tampilkan pesan error dari server
