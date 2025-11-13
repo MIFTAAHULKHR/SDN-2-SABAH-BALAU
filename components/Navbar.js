@@ -1,10 +1,8 @@
-// components/Navbar.js
-"use client"; 
+"use client"; // <-- TAMBAHKAN BARIS INI
 
 import React, { useState } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
 import Link from 'next/link';
-import Image from 'next/image'; // <-- 1. Impor Image
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,14 +20,8 @@ const Navbar = () => {
         
         {/* Logo dan Nama Sekolah */}
         <a href="/" className="flex items-center space-x-3">
-          {/* <-- 2. Ganti <img> dengan <Image> --> */}
-          <Image 
-            src="/Dokumentasi/logo.png" 
-            alt="Logo Sekolah" 
-            width={48} // (dari w-12)
-            height={40} // (dari h-10)
-            className="object-contain" 
-          />
+          {/* Pastikan logo.png ada di folder /public/ */}
+          <img src="/Dokumentasi/logo.png" alt="Logo Sekolah" className="h-10 w-12 object-contain" />
           <span className="font-bold text-lg">SDN 2 Sabah Balau</span>
         </a>
 
