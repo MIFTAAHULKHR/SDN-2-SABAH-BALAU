@@ -1,4 +1,6 @@
+// components/Footer.js
 import React from 'react';
+import Image from 'next/image'; // <-- 1. Impor Image
 import { 
   HiOutlineLocationMarker, 
   HiMail, 
@@ -14,7 +16,14 @@ const Footer = () => {
           
           {/* Kolom 1: Logo & Nama */}
           <div className="flex items-start space-x-4">
-            <img src="/Dokumentasi/logo.png" alt="Logo Sekolah" className="h-12 w-14 object-contain" />
+            {/* <-- 2. Ganti <img> dengan <Image> --> */}
+            <Image 
+              src="/Dokumentasi/logo.png" 
+              alt="Logo Sekolah" 
+              width={56} // (dari w-14)
+              height={48} // (dari h-12)
+              className="object-contain" 
+            />
             <div>
               <h5 className="font-bold text-xl mb-1">SDN 2 Sabah Balau</h5>
               <p className="text-sm text-white/70">Kecamatan Tanjung Bintang</p>
@@ -22,6 +31,7 @@ const Footer = () => {
           </div>
 
           {/* Kolom 2: Alamat */}
+          {/* ... (sisa kode Anda tetap sama) ... */}
           <div>
             <h5 className="font-bold text-xl mb-4 flex items-center">
               <HiOutlineLocationMarker className="mr-2" /> Alamat
@@ -34,6 +44,7 @@ const Footer = () => {
           </div>
 
           {/* Kolom 3: Kontak */}
+          {/* ... (sisa kode Anda tetap sama) ... */}
           <div>
             <h5 className="font-bold text-xl mb-4 flex items-center">
               <HiPhone className="mr-2" /> Kontak
@@ -52,7 +63,7 @@ const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href="https://www.instagram.com/sdn2sabahbalau" target="_blank" rel="noopener noreferrer" className="flex items-center text-sm text-white/70 hover:text-white transition-colors">
+                <a href="https://www.instagram.com/sdn2.sabahbalau" target="_blank" rel="noopener noreferrer" className="flex items-center text-sm text-white/70 hover:text-white transition-colors">
                   <BiLogoInstagram className="mr-3 flex-shrink-0" size={18} />
                   @sdn2.sabahbalau
                 </a>
@@ -62,6 +73,7 @@ const Footer = () => {
         </div>
         
         {/* Copyright */}
+        {/* ... (sisa kode Anda tetap sama) ... */}
         <hr className="border-white/20 my-8" />
         <div className="text-center">
           <p className="text-sm text-white/70">

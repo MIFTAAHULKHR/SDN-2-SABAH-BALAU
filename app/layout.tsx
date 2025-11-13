@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { Poppins } from 'next/font/google'; // <-- 1. Impor Poppins Anda (SUDAH BENAR)
 
@@ -14,9 +14,12 @@ export const metadata: Metadata = {
   // Ganti placeholder bawaan
   title: "SDN 2 Sabah Balau",
   description: "Website Resmi SDN 2 Sabah Balau",
-  viewport: "width=device-width, initial-scale=1.0",
 };
 
+export const viewport: Viewport = {
+  width: "width=device-width",
+  initialScale: 1.0,
+};
 // 4. Hapus definisi RootLayout yang duplikat dan font Geist
 
 // 5. Gunakan satu RootLayout (versi TypeScript) dan terapkan Poppins
