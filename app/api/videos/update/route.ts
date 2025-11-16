@@ -1,14 +1,17 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
-import { getSupabaseClient } from "@/lib/supabase";
 
-const supabase = getSupabaseClient();
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-// Validasi environment variable
-if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+// ✅ Validasi environment variable
+if (!supabaseUrl || !supabaseKey) {
   console.error("❌ Environment Supabase tidak ditemukan!");
   throw new Error("Supabase environment variable belum diatur dengan benar.");
 }
+
+// ✅ Buat client sekali di luar handler
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Endpoint API untuk update atau insert video
 export async function POST(req: Request) {
@@ -25,8 +28,6 @@ export async function POST(req: Request) {
 
     // Debugging log
     console.log("📥 Data diterima di API:", { id, youtube_url });
-    console.log("🔗 Supabase URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
-    console.log("🔑 Supabase Key:", process.env.SUPABASE_SERVICE_ROLE_KEY?.slice(0, 8) + "...");
 
     // Validasi input
     if (!id || !youtube_url) {
@@ -36,7 +37,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // Lakukan upsert (insert atau update otomatis)
+    // Upsert ke Supabase
     const { data, error } = await supabase
       .from("videos")
       .upsert({ id, youtube_url }, { onConflict: "id" });
@@ -52,7 +53,7 @@ export async function POST(req: Request) {
     console.log("✅ Video berhasil diperbarui:", data);
     return NextResponse.json({ success: true, data });
   } catch (err: any) {
-    console.error("⚠️ Error tak terduga:", err.message || err);
+    console.error("⚠️ Error tak terduga:", err?.message || err);
     return NextResponse.json(
       { success: false, error: "Kesalahan server internal" },
       { status: 500 }
