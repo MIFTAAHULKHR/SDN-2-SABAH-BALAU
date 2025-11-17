@@ -1,4 +1,4 @@
-"use client"; // PENTING: Halaman ini interaktif (menggunakan state dan form)
+"use client";
 
 import React, { useState } from 'react';
 import Link from 'next/link';
@@ -7,23 +7,19 @@ import Image from 'next/image'; // Komponen Next.js untuk gambar
 import { BiArrowBack } from 'react-icons/bi';
 
 export default function LoginPage() {
-  // State untuk menyimpan data input form
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  // State untuk menampilkan pesan error
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-
   const router = useRouter(); // Inisialisasi router
 
-  // Fungsi yang dijalankan saat form disubmit
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // Hentikan form agar tidak me-reload halaman
     setError(''); // Bersihkan error sebelumnya
     setLoading(true);
 
     try {
-      // 4. Kirim data ke backend API (/api/login)
+      // Kirim data ke backend API (/api/login)
       const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
@@ -32,7 +28,7 @@ export default function LoginPage() {
         body: JSON.stringify({ 
           username: username.trim(),
           password: password.trim()
-         }),
+        }),
       });
 
       const data = await response.json();
@@ -44,7 +40,7 @@ export default function LoginPage() {
         return;
       }
 
-      // simpan ke localStorage
+      // simpan ke localStorage jika login sukses
       if (typeof window !== "undefined") {
         localStorage.setItem(
           "admin_users",
@@ -56,7 +52,9 @@ export default function LoginPage() {
         console.log("SET_LOCALSTORAGE_ADMIN_USERS");
       }
 
+      // Redirect ke halaman admin
       router.push("/admin");
+      console.log("Redirecting to /admin");
     } catch (err) {
       console.error("LOGIN_FRONT_ERROR", err);
       setError("Tidak dapat terhubung ke server. Coba lagi.");
@@ -66,16 +64,11 @@ export default function LoginPage() {
   };
 
   return (
-    // Wrapper utama: Menggunakan Tailwind untuk menengahkan form di layar
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-4">
-      
-      {/* Kartu Login: Sesuai dengan style .login-container Anda */}
       <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-xl">
-        
-        {/* Header Kartu */}
         <div className="mb-6 text-center">
           <Image
-            src="/Dokumentasi/logo.png" // PASTIKAN path ini benar di folder /public/
+            src="/Dokumentasi/logo.png" 
             alt="Logo SDN 2 Sabah Balau"
             width={80}
             height={80}
@@ -85,14 +78,9 @@ export default function LoginPage() {
           <p className="text-slate-500">Gunakan akun admin untuk masuk</p>
         </div>
 
-        {/* Form Login */}
         <form onSubmit={handleSubmit}>
-          {/* Input Username */}
           <div className="mb-4">
-            <label 
-              htmlFor="username" 
-              className="block text-sm font-medium text-slate-700"
-            >
+            <label htmlFor="username" className="block text-sm font-medium text-slate-700">
               Username
             </label>
             <input
@@ -105,12 +93,8 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Input Password */}
           <div className="mb-4">
-            <label 
-              htmlFor="password"
-              className="block text-sm font-medium text-slate-700"
-            >
+            <label htmlFor="password" className="block text-sm font-medium text-slate-700">
               Password
             </label>
             <input
@@ -123,14 +107,12 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Menampilkan pesan error jika ada */}
           {error && (
             <div className="mb-4 rounded-md bg-red-50 p-4 text-sm text-red-700">
               {error}
             </div>
           )}
 
-          {/* Tombol Submit */}
           <button 
             type="submit" 
             disabled={loading}
@@ -140,7 +122,6 @@ export default function LoginPage() {
           </button>
         </form>
     
-        {/* Link Kembali ke Beranda */}
         <div className="mt-6 text-center">
           <Link 
             href="/" 
