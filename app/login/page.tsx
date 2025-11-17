@@ -1,60 +1,56 @@
 "use client";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // Hook untuk navigasi
-import Image from 'next/image'; // Komponen Next.js untuk gambar
-import { BiArrowBack } from 'react-icons/bi';
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { BiArrowBack } from "react-icons/bi";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter(); // Inisialisasi router
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Hentikan form agar tidak me-reload halaman
-    setError(''); // Bersihkan error sebelumnya
+  const router = useRouter();
+
+  const handleLogin = async () => {
+    console.log("HANDLE_LOGIN_CLICK");
+    setError("");
     setLoading(true);
 
     try {
-      // Kirim data ke backend API (/api/login)
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
           username: username.trim(),
-          password: password.trim()
+          password: password.trim(),
         }),
       });
 
-      const data = await response.json();
-      console.log("LOGIN_FRONT_RESULT", data);
+      const json = await res.json();
+      console.log("LOGIN_FRONT_RESULT", json);
 
-      if (!data.success) {
-        setError(data.message || "Gagal login");
+      if (!json.success) {
+        setError(json.message || "Gagal login");
         setLoading(false);
         return;
       }
 
-      // simpan ke localStorage jika login sukses
       if (typeof window !== "undefined") {
         localStorage.setItem(
           "admin_users",
           JSON.stringify({
-            id: data.user.id,
-            username: data.user.username,
+            id: json.user.id,
+            username: json.user.username,
           })
         );
-        console.log("SET_LOCALSTORAGE_ADMIN_USERS");
+        console.log("SET_LOCALSTORAGE_ADMIN_USERS", json.user);
       }
 
-      // Redirect ke halaman admin
+      console.log("AKAN_ROUTER_PUSH_ADMIN");
       router.push("/admin");
-      console.log("Redirecting to /admin");
     } catch (err) {
       console.error("LOGIN_FRONT_ERROR", err);
       setError("Tidak dapat terhubung ke server. Coba lagi.");
@@ -68,19 +64,25 @@ export default function LoginPage() {
       <div className="w-full max-w-md rounded-xl bg-white p-8 shadow-xl">
         <div className="mb-6 text-center">
           <Image
-            src="/Dokumentasi/logo.png" 
+            src="/Dokumentasi/logo.png"
             alt="Logo SDN 2 Sabah Balau"
             width={80}
             height={80}
             className="mx-auto"
           />
-          <h2 className="mt-3 text-3xl font-bold text-slate-800">Login Admin</h2>
-          <p className="text-slate-500">Gunakan akun admin untuk masuk</p>
+          <h2 className="mt-3 text-3xl font-bold text-slate-800">
+            Login Admin
+          </h2>
+          <p className="text-slate-500">Khusus akun admin</p>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        {/* TANPA <form>, supaya tidak ke-submit default */}
+        <div>
           <div className="mb-4">
-            <label htmlFor="username" className="block text-sm font-medium text-slate-700">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-slate-700"
+            >
               Username
             </label>
             <input
@@ -94,7 +96,10 @@ export default function LoginPage() {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-slate-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-slate-700"
+            >
               Password
             </label>
             <input
@@ -113,18 +118,19 @@ export default function LoginPage() {
             </div>
           )}
 
-          <button 
-            type="submit" 
+          <button
+            type="button"
+            onClick={handleLogin}
             disabled={loading}
-            className="w-full justify-center rounded-md border border-transparent bg-blue-600 py-3 px-4 text-lg font-medium text-white shadow-sm transition-all duration-300 hover:bg-blue-700 hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            className="w-full justify-center rounded-md border border-transparent bg-blue-600 py-3 px-4 text-lg font-medium text-white shadow-sm transition-all duration-300 hover:bg-blue-700 hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-60"
           >
-             {loading ? "Memproses..." : "Log In"}
+            {loading ? "Memproses..." : "Log In"}
           </button>
-        </form>
-    
+        </div>
+
         <div className="mt-6 text-center">
-          <Link 
-            href="/" 
+          <Link
+            href="/"
             className="text-sm text-slate-500 hover:text-blue-600 transition-colors no-underline"
           >
             <BiArrowBack className="inline -mt-1 mr-1" />

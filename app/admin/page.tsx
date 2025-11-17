@@ -1,11 +1,11 @@
+// sd n2-sabah-balau/app/admin/page.tsx
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { createClient } from "@supabase/supabase-js";
-
-// Heroicons
+import { supabase } from "@/lib/supabaseClient";
 import {
   HiViewGrid,
   HiExternalLink,
@@ -18,335 +18,399 @@ import {
   HiArrowLeft,
 } from "react-icons/hi";
 
-// 🔗 Supabase Client
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+// --- DATA MATERI SEMENTARA (BISA DISAMBUNG KE SUPABASE NANTI) ---
+const dataAkademik: any = {
+  "5": {
+    "Matematika": {
+      "Bab 1": { nama: "Bilangan Bulat dan Bilangan Desimal", youtube: "" },
+      "Bab 2": { nama: "Pengukuran per Kuantitas Unit", youtube: "" },
+      "Bab 3": { nama: "Perkalian Bilangan Desimal", youtube: "" },
+      "Bab 4": { nama: "Kekongruenan dan Sudut Bangun Datar", youtube: "" },
+      "Bab 5": { nama: "Pembagian Bilangan Desimal", youtube: "" },
+      "Bab 6": { nama: "Volume", youtube: "" },
+      "Bab 7": { nama: "Kelipatan dan Faktor", youtube: "" },
+      "Bab 8": { nama: "Pecahan", youtube: "" },
+    },
+    "Bahasa Inggris": {
+      "Bab 1": { nama: "The Curry is Spicy", youtube: "" },
+      "Bab 2": { nama: "I Drink a Glass of Milk", youtube: "" },
+      "Bab 3": { nama: "How Much Do the Apples Cost?", youtube: "" },
+      "Bab 4": { nama: "I Have Stomachache", youtube: "" },
+      "Bab 5": { nama: "What a Nice Shirt!", youtube: "" },
+      "Bab 6": { nama: "She Listens to Music with Her Ears", youtube: "" },
+      "Bab 7": { nama: "The Tiger is Big, but the Cat is Small", youtube: "" },
+      "Bab 8": { nama: "The Rabit is Smaller than the Goat", youtube: "" },
+      "Bab 9": { nama: "The Giraffe is the Tallest Animal on Earth", youtube: "" },
+      "Bab 10": { nama: "Indonesia Independence Day is on August 17th", youtube: "" },
+    },
+  },
+  "6": {
+    "Matematika": {
+      "Bab 1": { nama: "Simetri", youtube: "" },
+      "Bab 2": { nama: "Simbol dan Kalimat Matematika", youtube: "" },
+      "Bab 3": { nama: "Perkalian Pecahan", youtube: "" },
+      "Bab 4": { nama: "Pembagian Pecahan", youtube: "" },
+      "Bab 5": { nama: "Kelipatan dan Perbandingan", youtube: "" },
+      "Bab 6": { nama: "Pembagian Pecahan", youtube: "" },
+      "Bab 7": { nama: "Menghitung Luas Berbagai Bangun Datar", youtube: "" },
+      "Bab 8": { nama: "Urutan dan Kombinasi", youtube: "" },
+      "Bab 9": { nama: "Kecepatan", youtube: "" },
+      "Bab 10": { nama: "Volume", youtube: "" },
+    },
+    "Bahasa Inggris": {
+      "Bab 1": { nama: "I Ate Hamburger Yesterday", youtube: "" },
+      "Bab 2": { nama: "I Went to the Zoo Last Week", youtube: "" },
+      "Bab 3": { nama: "I was in Lombok Last Week", youtube: "" },
+      "Bab 4": { nama: "I was Happy Yesterday", youtube: "" },
+      "Bab 5": { nama: "Where did You Go Yesterday?", youtube: "" },
+      "Bab 6": { nama: "My Holiday Experience", youtube: "" },
+      "Bab 7": { nama: "I Will Go to Bandung", youtube: "" },
+      "Bab 8": { nama: "My Mother will Bake a Cake Tomorrow", youtube: "" },
+      "Bab 9": { nama: "I Will Go to Bali Next Month", youtube: "" },
+      "Bab 10": { nama: "Made Wants to be a Pilot", youtube: "" },
+      "Bab 11": { nama: "I Want to be a Teacher", youtube: "" },
+    },
+  },
+};
 
-// ====== SIDEBAR ======
-const Sidebar = () => (
-  <aside className="flex h-screen w-64 flex-col overflow-y-auto bg-gradient-to-r from-blue-500 to-cyan-400 px-5 py-8 text-white">
-    <Link href="/" className="flex items-center space-x-2">
-      {/* Pastikan file ini ada di public/Dokumentasi/logo.png */}
-      <Image
-        src="/Dokumentasi/logo.png"
-        alt="Logo Sekolah"
-        width={40}
-        height={40}
-      />
-      <span className="text-xl font-bold">Admin Panel</span>
-    </Link>
-    <div className="mt-8 flex flex-1 flex-col justify-between">
-      <ul className="flex flex-col space-y-2">
-        <li>
-          <Link
-            href="/admin"
-            className="flex items-center rounded-lg bg-white px-4 py-3 text-blue-600 font-semibold shadow"
-          >
-            <HiViewGrid className="mr-3" size={20} /> Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="/akademik"
-            className="flex items-center rounded-lg px-4 py-3 text-white/80 transition-all hover:bg-white/10 hover:text-white"
-          >
-            <HiExternalLink className="mr-3" size={20} /> Lihat Situs
-          </Link>
-        </li>
-      </ul>
-      <ul>
-        <li>
-          <Link
-            href="/"
-            className="flex items-center rounded-lg px-4 py-3 text-red-300 transition-all hover:bg-red-500 hover:text-white"
-          >
-            <HiLogout className="mr-3" size={20} /> Logout
-          </Link>
-        </li>
-      </ul>
-    </div>
-  </aside>
-);
+// ---------- SIDEBAR ----------
+const Sidebar: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
+  const router = useRouter();
 
-// ====== HALAMAN ADMIN UTAMA ======
+  const handleLogoutClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onLogout();
+    router.push("/login");
+  };
+
+  return (
+    <aside className="flex h-screen w-72 flex-col overflow-y-auto bg-gradient-to-b from-blue-600 to-cyan-400 px-6 py-8 text-white shadow-2xl">
+      {/* Logo + Title */}
+      <Link href="/" className="flex items-center space-x-3 mb-10">
+        <Image
+          src="/Dokumentasi/logo.png"
+          alt="Logo Sekolah"
+          width={40}
+          height={40}
+        />
+        <span className="text-2xl font-bold tracking-tight">Admin Panel</span>
+      </Link>
+
+      {/* Menu */}
+      <nav className="flex-1 flex flex-col justify-between">
+        <ul className="space-y-2">
+          <li>
+            <div className="flex items-center rounded-xl bg-white px-4 py-3 text-blue-600 font-semibold shadow-md">
+              <HiViewGrid className="mr-3" size={20} />
+              Dashboard
+            </div>
+          </li>
+          <li>
+            <Link
+              href="/akademik"
+              className="flex items-center rounded-xl px-4 py-3 text-white/80 transition-all hover:bg-white/10 hover:text-white"
+            >
+              <HiExternalLink className="mr-3" size={20} />
+              Lihat Situs
+            </Link>
+          </li>
+        </ul>
+
+        <button
+          onClick={handleLogoutClick}
+          className="mt-8 flex items-center rounded-xl px-4 py-3 text-red-200 transition-all hover:bg-red-500 hover:text-white"
+        >
+          <HiLogout className="mr-3" size={20} />
+          Logout
+        </button>
+      </nav>
+    </aside>
+  );
+};
+
+// ---------- HALAMAN ADMIN ----------
 export default function AdminPage() {
   const router = useRouter();
 
-  // --- STATE MANAGEMENT ---
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
-  const [view, setView] = useState<"pilih-kelas" | "pilih-pelajaran" | "pilih-bab" | "form-materi">("pilih-kelas");
-  
-  // Data Selection State
-  const [kelas, setKelas] = useState("");
-  const [pelajaran, setPelajaran] = useState("");
-  const [babList, setBabList] = useState<any[]>([]);
-  const [selectedBab, setSelectedBab] = useState<any>(null);
-  
-  // Form State
-  const [youtubeUrl, setYoutubeUrl] = useState("");
-  const [error, setError] = useState("");
+  const [view, setView] = useState<
+    "pilih-kelas" | "pilih-pelajaran" | "pilih-bab" | "form-materi"
+  >("pilih-kelas");
+  const [currentKelas, setCurrentKelas] = useState<string | null>(null);
+  const [currentPelajaran, setCurrentPelajaran] = useState<string | null>(null);
+  const [currentBab, setCurrentBab] = useState<string | null>(null);
+  const [currentBabData, setCurrentBabData] = useState<any>(null);
+  const [youtubeLink, setYoutubeLink] = useState("");
 
-  // --- 1. CHECK AUTH (useEffect) ---
+  // 🔐 Cek login via localStorage
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const userData = localStorage.getItem("admin_users");
-      if (!userData) {
-        router.push("/login"); // Redirect jika tidak ada sesi
-      } else {
-        setIsCheckingAuth(false); // Selesai loading auth
-      }
+    if (typeof window === "undefined") return;
+
+    const stored = localStorage.getItem("admin_users");
+    console.log("ADMIN_CHECK_LOCALSTORAGE", stored);
+    if (!stored) {
+      router.push("/login");
+    } else {
+      setIsCheckingAuth(false);
     }
   }, [router]);
 
-  // --- 2. FETCH VIDEOS (Function & useEffect) ---
-  const fetchVideos = async () => {
-    // Reset list jika data belum lengkap
-    if (!kelas || !pelajaran) return;
-
-    // Ambil data dari Supabase
-    const { data, error } = await supabase
-      .from("videos")
-      .select("id, kelas, pelajaran, bab, youtube_url, title")
-      .eq("kelas", kelas)
-      .eq("pelajaran", pelajaran)
-      .order("id", { ascending: true });
-
-    if (error) {
-      setError("Gagal mengambil data video.");
-      console.error("Error fetching videos", error);
-    } else {
-      setBabList(data || []);
-      console.log("Data fetched:", data);
+  const handleLogout = () => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("admin_users");
     }
   };
 
-  // Panggil fetchVideos setiap kali kelas atau pelajaran berubah
-  useEffect(() => {
-    fetchVideos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [kelas, pelajaran]);
-
-  // --- 3. HANDLE UPDATE VIDEO ---
-  const handleUpdate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(""); // Reset error
-
-    // Validasi
-    if (!selectedBab) {
-      setError("Pilih bab terlebih dahulu.");
-      return;
-    }
-    if (!youtubeUrl.trim()) {
-      setError("Isi link YouTube.");
-      return;
-    }
-
-    // Proses Update ke Supabase
-    const { error: updateError } = await supabase
-      .from("videos")
-      .update({ youtube_url: youtubeUrl.trim() })
-      .eq("id", selectedBab.id);
-
-    if (updateError) {
-      setError("Gagal update! " + (updateError.message || "Terjadi kesalahan"));
-      return;
-    }
-
-    // Berhasil
-    alert("Video berhasil diperbarui!");
-    setView("pilih-bab"); // Kembali ke daftar bab
-    fetchVideos(); // Refresh data agar tampilan sesuai database terbaru
-  };
-
-  // Tampilan Loading saat cek Auth
   if (isCheckingAuth) {
     return (
-      <div className="flex h-screen items-center justify-center bg-gray-100 text-slate-600">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 text-slate-600">
         Memeriksa sesi login...
       </div>
     );
   }
 
-  // --- RENDER UTAMA ---
-  return (
-    <div className="flex bg-gray-50 text-slate-800 h-screen overflow-hidden">
-      <Sidebar />
-      
-      <main className="flex-1 p-8 overflow-auto">
-        <h1 className="text-4xl font-bold text-slate-800">Dashboard Admin</h1>
-        <p className="text-slate-500 mt-1">
-          Selamat datang, admin. Kelola konten pembelajaran dari sini.
-        </p>
-        <hr className="my-6" />
+  // ---- HANDLER LANGKAH-LANGKAH ----
+  const handleKelasClick = (kelas: string) => {
+    setCurrentKelas(kelas);
+    setCurrentPelajaran(null);
+    setCurrentBab(null);
+    setView("pilih-pelajaran");
+  };
 
-        <div className="rounded-xl bg-white p-6 shadow-xl min-h-[400px]">
-          {/* Tampilkan Error Global jika ada */}
-          {error && (
-            <div className="mb-4 p-3 bg-red-100 text-red-700 rounded border border-red-200">
-              {error}
+  const handlePelajaranClick = (pelajaran: string) => {
+    setCurrentPelajaran(pelajaran);
+    setCurrentBab(null);
+    setView("pilih-bab");
+  };
+
+  const handleBabClick = (babKey: string, babData: { nama: string; youtube: string }) => {
+    setCurrentBab(babKey);
+    setCurrentBabData(babData);
+    setYoutubeLink(babData.youtube || "");
+    setView("form-materi");
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!currentKelas || !currentPelajaran || !currentBab) return;
+
+    // 1. Update data lokal (biar UI langsung berubah)
+    dataAkademik[currentKelas][currentPelajaran][currentBab].youtube = youtubeLink;
+
+    // 2. Simpan ke Supabase
+    const { error } = await supabase
+      .from("videos")                      // ← pastikan nama tabel benar
+      .upsert(
+        {
+          kelas: currentKelas,
+          pelajaran: currentPelajaran,
+          bab: currentBab,
+          youtube_url: youtubeLink,               // atau nama kolom misal: "youtube_url"
+        },
+        {
+          onConflict: "kelas,pelajaran,bab",
+        }
+      );
+
+    if (error) {
+      console.error("Gagal simpan ke Supabase:", error);
+      alert("Gagal menyimpan ke database: " + error.message);
+      return;
+    }
+
+    alert(
+      `Perubahan tersimpan!\n\n${currentPelajaran} - ${currentBab} sekarang menggunakan link:\n${youtubeLink}`
+    );
+    setView("pilih-bab");
+  };
+
+
+  const getBabList = () => {
+    if (
+      currentKelas &&
+      currentPelajaran &&
+      dataAkademik[currentKelas] &&
+      dataAkademik[currentKelas][currentPelajaran]
+    ) {
+      return Object.entries(dataAkademik[currentKelas][currentPelajaran]);
+    }
+    return [];
+  };
+
+  // ---------- RENDER ----------
+  return (
+    <div className="flex bg-gray-50 text-slate-800">
+      <Sidebar onLogout={handleLogout} />
+
+      <main className="flex-1 h-screen overflow-y-auto p-10">
+        {/* Header */}
+        <header className="mb-8">
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900">
+            Dashboard Admin
+          </h1>
+          <p className="mt-1 text-slate-500">
+            Selamat datang, admin. Kelola konten website dari sini.
+          </p>
+          <hr className="mt-6 border-slate-200" />
+        </header>
+
+        {/* Card Utama */}
+        <section className="rounded-3xl bg-white p-8 shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+          <h2 className="text-3xl font-bold mb-2 text-slate-900">
+            Kelola Materi Pembelajaran
+          </h2>
+
+          {/* ---------- LANGKAH 1: PILIH KELAS ---------- */}
+          {view === "pilih-kelas" && (
+            <div className="mt-6">
+              <h5 className="text-xl font-semibold mb-4">
+                Langkah 1: Pilih Kelas
+              </h5>
+              <div className="grid md:grid-cols-2 gap-6">
+                <button
+                  onClick={() => handleKelasClick("5")}
+                  className="card-admin flex flex-col items-center justify-center rounded-2xl border border-slate-100 bg-white px-8 py-10 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <HiUserCircle size={48} className="text-blue-600 mb-3" />
+                  <h3 className="text-2xl font-semibold">Kelas 5</h3>
+                </button>
+                <button
+                  onClick={() => handleKelasClick("6")}
+                  className="card-admin flex flex-col items-center justify-center rounded-2xl border border-slate-100 bg-white px-8 py-10 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+                >
+                  <HiAcademicCap size={48} className="text-blue-600 mb-3" />
+                  <h3 className="text-2xl font-semibold">Kelas 6</h3>
+                </button>
+              </div>
             </div>
           )}
 
-          {/* === STEP 1: Pilih Kelas === */}
-          {view === "pilih-kelas" && (
-            <>
-              <h2 className="text-2xl font-semibold mb-4">Langkah 1: Pilih Kelas</h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div
-                  className="cursor-pointer text-center p-6 border rounded-lg shadow hover:bg-blue-50 transition-colors"
-                  onClick={() => {
-                    setKelas("5");
-                    setView("pilih-pelajaran");
-                  }}
-                >
-                  <HiUserCircle size={48} className="text-blue-600 mb-2 mx-auto" />
-                  <h3 className="text-2xl font-semibold">Kelas 5</h3>
-                </div>
-                <div
-                  className="cursor-pointer text-center p-6 border rounded-lg shadow hover:bg-blue-50 transition-colors"
-                  onClick={() => {
-                    setKelas("6");
-                    setView("pilih-pelajaran");
-                  }}
-                >
-                  <HiAcademicCap size={48} className="text-blue-600 mb-2 mx-auto" />
-                  <h3 className="text-2xl font-semibold">Kelas 6</h3>
-                </div>
-              </div>
-            </>
-          )}
-
-          {/* === STEP 2: Pilih Pelajaran === */}
+          {/* ---------- LANGKAH 2: PILIH PELAJARAN ---------- */}
           {view === "pilih-pelajaran" && (
-            <>
-              <h2 className="text-2xl font-semibold mb-4">
-                Langkah 2: Pilih Mata Pelajaran (Kelas {kelas})
-              </h2>
+            <div className="mt-6">
+              <h5 className="text-xl font-semibold mb-4">
+                Langkah 2: Pilih Mata Pelajaran (Kelas {currentKelas})
+              </h5>
               <div className="grid md:grid-cols-2 gap-6">
-                <div
-                  className="flex items-center p-4 border rounded-lg shadow cursor-pointer hover:bg-blue-50 transition-colors"
-                  onClick={() => {
-                    setPelajaran("Matematika");
-                    setView("pilih-bab");
-                  }}
+                <button
+                  onClick={() => handlePelajaranClick("Matematika")}
+                  className="card-admin-list flex items-center rounded-2xl border border-slate-100 bg-white px-5 py-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
                 >
                   <HiCalculator size={24} className="text-blue-600 mr-3" />
-                  <span>Matematika</span>
-                </div>
-                <div
-                  className="flex items-center p-4 border rounded-lg shadow cursor-pointer hover:bg-blue-50 transition-colors"
-                  onClick={() => {
-                    setPelajaran("Bahasa Inggris");
-                    setView("pilih-bab");
-                  }}
+                  <span className="text-lg font-semibold">Matematika (MTK)</span>
+                </button>
+                <button
+                  onClick={() => handlePelajaranClick("Bahasa Inggris")}
+                  className="card-admin-list flex items-center rounded-2xl border border-slate-100 bg-white px-5 py-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
                 >
                   <HiGlobe size={24} className="text-blue-600 mr-3" />
-                  <span>Bahasa Inggris</span>
-                </div>
+                  <span className="text-lg font-semibold">Bahasa Inggris</span>
+                </button>
               </div>
+
               <button
+                className="btn-kembali mt-6 inline-flex items-center rounded-full border border-slate-200 px-5 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
                 onClick={() => setView("pilih-kelas")}
-                className="mt-6 flex items-center text-slate-600 border px-4 py-2 rounded hover:bg-slate-50 transition-colors"
               >
-                <HiArrowLeft className="mr-2" /> Kembali
+                <HiArrowLeft className="mr-1" />
+                Kembali
               </button>
-            </>
+            </div>
           )}
 
-          {/* === STEP 3: Pilih Bab === */}
+          {/* ---------- LANGKAH 3: PILIH BAB ---------- */}
           {view === "pilih-bab" && (
-            <>
-              <h2 className="text-2xl font-semibold mb-4">
-                Langkah 3: Pilih Bab ({pelajaran}, Kelas {kelas})
-              </h2>
-              
-              {babList.length === 0 ? (
-                <div className="text-center py-10 text-slate-500 bg-slate-50 rounded border border-dashed">
-                  <p>Belum ada data video atau sedang memuat...</p>
-                </div>
-              ) : (
-                <div className="flex flex-col border rounded-lg overflow-hidden shadow">
-                  {babList.map((b) => (
-                    <div
-                      key={b.id}
-                      className="flex items-center justify-between p-4 border-b last:border-b-0 cursor-pointer hover:bg-blue-50 transition-colors"
-                      onClick={() => {
-                        setSelectedBab(b);
-                        setYoutubeUrl(b.youtube_url || "");
-                        setView("form-materi");
-                      }}
+            <div className="mt-6">
+              <h5 className="text-xl font-semibold mb-4">
+                Langkah 3: Pilih Bab yang Ingin Diubah
+              </h5>
+              <div className="max-w-3xl rounded-2xl border border-slate-100 bg-white shadow-sm overflow-hidden">
+                {getBabList().map(([babKey, babObject]) => {
+                  const bab = babObject as { nama: string; youtube: string };
+                  return (
+                    <button
+                      key={babKey}
+                      onClick={() => handleBabClick(babKey, bab)}
+                      className="flex w-full items-center justify-between px-5 py-4 border-b border-slate-100 text-left hover:bg-slate-50 transition-colors"
                     >
                       <div>
-                        <strong className="block text-lg">{b.bab}</strong>
-                        <p className="text-slate-500 text-sm">{b.title}</p>
+                        <span className="font-semibold text-slate-900">
+                          {babKey}.
+                        </span>
+                        <span className="ml-2 text-slate-700">{bab.nama}</span>
                       </div>
-                      <span className={`text-sm font-medium ${b.youtube_url ? 'text-green-600' : 'text-red-500'}`}>
-                        {b.youtube_url ? "🎬 Video Tersedia" : "❌ Belum ada Video"}
+                      <span className="text-xs text-slate-400">
+                        {bab.youtube ? "Sudah ada link" : "Belum ada link"}
                       </span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              
-              <button
-                onClick={() => setView("pilih-pelajaran")}
-                className="mt-6 flex items-center text-slate-600 border px-4 py-2 rounded hover:bg-slate-50 transition-colors"
-              >
-                <HiArrowLeft className="mr-2" /> Kembali
-              </button>
-            </>
-          )}
-
-          {/* === STEP 4: Form Update === */}
-          {view === "form-materi" && selectedBab && (
-            <>
-              <h2 className="text-2xl font-semibold mb-4">
-                Langkah 4: Ubah Link Video
-              </h2>
-              <div className="bg-blue-50 p-4 rounded-lg mb-6 border border-blue-100">
-                 <p className="font-bold text-blue-800">{selectedBab.bab}</p>
-                 <p className="text-blue-600">{selectedBab.title}</p>
+                    </button>
+                  );
+                })}
               </div>
 
-              <form onSubmit={handleUpdate} className="max-w-2xl">
+              <button
+                className="btn-kembali mt-6 inline-flex items-center rounded-full border border-slate-200 px-5 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+                onClick={() => setView("pilih-pelajaran")}
+              >
+                <HiArrowLeft className="mr-1" />
+                Kembali
+              </button>
+            </div>
+          )}
+
+          {/* ---------- LANGKAH 4: FORM LINK YOUTUBE ---------- */}
+          {view === "form-materi" && (
+            <div className="mt-6 max-w-3xl">
+              <h5 className="text-xl font-semibold mb-2">
+                Langkah 4: Masukkan Link YouTube Baru
+              </h5>
+              <h6 className="text-slate-500 font-normal mb-4">
+                Materi: {currentBab} - {currentBabData?.nama}
+              </h6>
+
+              <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                  <label className="block mb-2 font-medium text-slate-700">
-                    Link YouTube (Format Embed)
+                  <label
+                    htmlFor="youtube-link"
+                    className="block text-sm font-medium text-slate-700 mb-1"
+                  >
+                    Link Video YouTube:
                   </label>
                   <input
                     type="url"
-                    value={youtubeUrl}
-                    onChange={(e) => setYoutubeUrl(e.target.value)}
-                    className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    placeholder="https://www.youtube.com/embed/xxxxx"
+                    id="youtube-link"
+                    value={youtubeLink}
+                    onChange={(e) => setYoutubeLink(e.target.value)}
+                    className="w-full rounded-xl border border-slate-200 px-3 py-2 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/40"
+                    placeholder="https://www.youtube.com/embed/..."
                     required
                   />
-                  <p className="text-xs text-slate-500 mt-2">
-                    Contoh format: <code>https://www.youtube.com/embed/dQw4w9WgXcQ</code>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Pastikan link menggunakan format{" "}
+                    <span className="font-mono">/embed/</span>.
                   </p>
                 </div>
 
-                <div className="flex space-x-3 mt-6">
+                <div className="flex items-center gap-3 mt-4">
                   <button
                     type="submit"
-                    className="bg-blue-600 text-white px-6 py-2.5 rounded-lg flex items-center font-medium hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
+                    className="inline-flex items-center rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white shadow-md hover:bg-blue-700 hover:shadow-lg transition-all"
                   >
-                    <HiSave className="mr-2" size={18} /> Simpan Perubahan
+                    <HiSave className="mr-2" />
+                    Simpan Perubahan
                   </button>
                   <button
                     type="button"
                     onClick={() => setView("pilih-bab")}
-                    className="border border-slate-300 px-6 py-2.5 rounded-lg flex items-center text-slate-700 hover:bg-slate-50 transition-all"
+                    className="inline-flex items-center rounded-full border border-slate-200 px-5 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
                   >
-                    <HiArrowLeft className="mr-2" size={18} /> Batal
+                    <HiArrowLeft className="mr-1" />
+                    Kembali
                   </button>
                 </div>
               </form>
-            </>
+            </div>
           )}
-        </div>
+        </section>
       </main>
     </div>
   );
