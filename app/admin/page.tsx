@@ -148,9 +148,12 @@ export default function AdminPage() {
 
     const stored = localStorage.getItem("admin_users");
     console.log("ADMIN_CHECK_LOCALSTORAGE", stored);
+
     if (!stored) {
+      console.log("ADMIN_NO_USER_FOUND_REDIRECT_LOGIN");
       router.push("/login");
     } else {
+      console.log("ADMIN_USER_FOUND_OK");
       setIsCheckingAuth(false);
     }
   }, [router]);
