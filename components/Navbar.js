@@ -11,7 +11,6 @@ const Navbar = () => {
     { name: 'Beranda', href: '/' },
     { name: 'Fasilitas', href: '/fasilitas' },
     { name: 'Akademik', href: '/akademik' },
-    { name: 'Aktivitas', href: '/aktivitas' },
     { name : 'Panduan', href:'/panduan'},
   ];
 

@@ -61,21 +61,20 @@ const quizQuestions = [
   }
 ];
 
-const localStorageKey_Answers = 'quiz_mtk_5_7_answers';
-const localStorageKey_Score = 'quiz_mtk_5_7_score';
+  const localStorageKey_Answers = 'quiz_mtk_5_7_answers';
+  const localStorageKey_Score = 'quiz_mtk_5_7_score';
+  export default function MateriMtk5Bab7Page() {
+    const [selectedAnswers, setSelectedAnswers] = useState({});
+    const [score, setScore] = useState<number | null>(null);
+    const [showAnswers, setShowAnswers] = useState(false);
+    const [isClient, setIsClient] = useState(false);
+    const [videoUrl, setVideoUrl] = useState("");
+    const [loadingVideo, setLoadingVideo] = useState(true);
 
-export default function MateriMtk5Bab7Page() {
-  const [selectedAnswers, setSelectedAnswers] = useState({});
-  const [score, setScore] = useState<number | null>(null);
-  const [showAnswers, setShowAnswers] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-  const [videoUrl, setVideoUrl] = useState("");
-  const [loadingVideo, setLoadingVideo] = useState(true);
-
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    );
 
   useEffect(() => {
       async function fetchVideo() {
@@ -145,7 +144,7 @@ export default function MateriMtk5Bab7Page() {
     setScore(newScore);
     setShowAnswers(false);
   };
-
+  
   const handleResetQuiz = () => {
     setSelectedAnswers({});
     setScore(null);
@@ -158,18 +157,18 @@ export default function MateriMtk5Bab7Page() {
     <div className="bg-white min-h-screen flex flex-col">
       <Navbar />
       <main className="py-10 md:py-16 flex-grow">
-        <div className="container mx-auto px-4">
+      <div className="container mx-auto px-4">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-800 text-center mb-4">
             Pusat Akademik Siswa
           </h1>
           <h2 className="text-2xl md:text-3xl font-semibold text-slate-700 text-center mb-10 md:mb-12">
             Materi Bab 7: Kelipatan dan Faktor
           </h2>
-          <div className="max-w-4xl mx-auto">
+       <div className="max-w-4xl mx-auto">
             <h3 className="text-xl md:text-2xl font-semibold text-slate-800 mb-4">
               Video Pembelajaran
             </h3>
-            
+        
             <div className="aspect-video w-full mb-10 rounded-lg shadow-xl overflow-hidden border border-gray-200">
               {loadingVideo ? (
                 <div className="flex justify-center items-center h-full text-slate-500">

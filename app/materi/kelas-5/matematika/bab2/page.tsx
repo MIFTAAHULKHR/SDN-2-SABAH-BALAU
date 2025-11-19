@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import { BiArrowBack, BiCheckCircle, BiXCircle } from "react-icons/bi";
 import { createClient } from "@supabase/supabase-js";
 
-// --- DATA KUIS UNTUK BAB 2 MTK KELAS 5 (BARU) ---
+// --- DATA KUIS BAB 2 MTK KELAS 5 ---
 const quizQuestions = [
   {
     question: "1. Jika 5 apel beratnya 1.5 kg, berapa berat rata-rata per apel?",
@@ -84,13 +84,11 @@ export default function MateriMtk5Bab2Page() {
   const [videoUrl, setVideoUrl] = useState("");
   const [loadingVideo, setLoadingVideo] = useState(true);
 
-  // 🔹 Inisialisasi Supabase client (gunakan anon key)
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  // 🔹 Ambil data video dari Supabase (id = 2 untuk Bab 2)
   useEffect(() => {
     async function fetchVideo() {
       setLoadingVideo(true);
@@ -114,7 +112,6 @@ export default function MateriMtk5Bab2Page() {
     fetchVideo();
   }, []);
 
-  // --- Logic untuk kuis ---
   useEffect(() => {
     setIsClient(true);
     const savedAnswers = localStorage.getItem(localStorageKey_Answers);
@@ -304,7 +301,7 @@ export default function MateriMtk5Bab2Page() {
               {score !== null && (
                 <div className="mt-6 p-4 rounded-md bg-blue-50 border border-blue-200">
                   <p className="font-semibold text-blue-800 text-lg">
-                    Skor Anda: {score} / {quizQuestions.length}
+                    Skor Anda (tersimpan di perangkat ini): {score} / {quizQuestions.length}
                   </p>
                 </div>
               )}

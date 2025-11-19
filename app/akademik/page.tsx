@@ -58,5 +58,3 @@ export default function AkademikPage() {
     </div>
   );
 }
-
-// --- KODE DUPLIKAT DI BAWAH INI TELAH DIHAPUS ---
